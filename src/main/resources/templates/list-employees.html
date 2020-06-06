@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Empleados</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Escuelita online</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/empleados/todos">Empleados</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cursos/todos">Cursos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/tomarcurso/todos">Inscripciones</a>
+                </li>
+            </ul>
+        </div>
+        <form method="POST" th:action="@{/logout}" class="nav-item">
+            <input type="submit" class="btn btn-outline-danger" value="cerrar sesion" />
+        </form>
+    </nav>
+    <div class="container my-5">
+        <div class="card">
+            <div class="card-header"><h2>Lista de empleados</h2></div>
+            <div class="card-body p-0">
+                <div th:switch="${employees}" class="container p-0">
+                    <p class="mt-3 ml-5">
+                        <a href="/empleados/edit" class="btn btn-outline-primary">
+                            <i class="fas fa-user-plus ml-2"> Registrar empleado</i></a>
+                        <a href="/cursos/edit" class="btn btn-outline-primary">
+                            <i class="fas fa-user-plus ml-2"> Añadir curso</i></a>
+                        <a href="/tomarcurso/edit" class="btn btn-outline-primary">
+                            <i class="fas fa-user-plus ml-2"> Tomar curso</i></a>
+                    </p>
+                    <div class="w-100 m-0">
+                        <h2 th:case="null">No se encontraron empelados !!</h2>
+                        <div th:case="*">
+                            <table class="table table-hover table-responsive-md">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Apellido</th>
+                                        <th>Telefono</th>
+                                        <th>Email</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="employee : ${employees}">
+                                        <td th:text="${employee.firstName}"></td>
+                                        <td th:text="${employee.lastName}"></td>
+                                        <td th:text="${employee.phone}"></td>
+                                        <td th:text="${employee.email}"></td>
+                                        <td>
+                                            <a th:href="@{/empleados/edit/{id}(id=${employee.id})}"
+                                                class="btn btn-warning">
+                                                <i class="fas fa-user-edit ml-2"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a th:href="@{/empleados/delete/{id}(id=${employee.id})}"
+                                                class="btn btn-danger">
+                                                <i class="fas fa-user-times ml-2"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
